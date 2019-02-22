@@ -1,6 +1,13 @@
+
+.highlight:valid {
+  color: #ff0000;
+} 
+
 /**
  * Fixed Position: Anchors element to the browser
  **/
+
+
 
 .box-set {
   position: relative;
