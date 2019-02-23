@@ -1,5 +1,20 @@
 /* attempt at a template for style sheet --> */
-
+* {
+    color: red;
+  }
+  
+  container {
+      color: #ff0000;
+  }
+  
+  .jumbotron {
+      color: purple;
+  }
+  
+  .highlight:valid {
+    color: #ff0000;
+  } 
+/* 
 
     body {
         background-color: white;
@@ -74,3 +89,4 @@
         <!border-color: orange;>
         <!border-width: 10px;>
     }
+*/
