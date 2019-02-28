@@ -14,7 +14,15 @@
   .highlight:valid {
     color: #ff0000;
   } 
+header {
+    font-size: 32px;
+}
 
+#border {
+    border-width: 5;
+    border-color: green;
+    border-style: double;
+}
 
     body {
         background-color: white;

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS Boolean Test</title>
+</head>
+
+<body>
+
+    <script type="text/javascript">
+
+        // Here we create our prompt and confirm variables which will store user input.
+        var confirmSteakEat = confirm("Click 'OK' if you eat steak, otherwise click 'Cancel.");
+        //   var =confirmGinger = confirm("Do you like Ginger Tea?");
+        var promptDob = prompt("What year were you born?");
+        var currentAge = (2018 - promptDob);
+
+        console.log("Age is: ", currentAge);
+
+        // If the user likes sushi (confirmSushi === true), we run the following block of code.
+        if (confirmSteakEat) {
+            document.writeln("Here is a Steak Sandwich!");
+        }
+
+        else {
+            document.writeln("Here is a Tofu Stir-Fry!");
+        }
+        if (currentAge < 17) {
+            alert ("You are: " + currentAge + "!  So, you must leave");
+        }
+        else {
+            document.writeln("You are: " + currentAge + ". Therefore, you may stay");
+        }
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

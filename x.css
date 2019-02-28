@@ -1,0 +1,27 @@
+/* attempt at a template for style sheet --> */
+* {
+    color: black;
+  }
+  
+  head { display: block;} 
+
+  .container {
+      color: #ff0000;
+  }
+  
+  .jumbotron {
+      color: purple;
+  }
+  
+footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	padding: 3em;
+	text-align: center;
+	font-size: 0.8em;
+	color: #cccccc;
+	background-color: #666666;
+	border-top: 7px solid #4aaaa5;
+}

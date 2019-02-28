@@ -1,0 +1,20 @@
+.boxmod {
+  background-color: lightgrey;
+  width: 555px;
+  border: 25px solid green;
+  padding: 45px;
+  margin: 25px;
+ }
+/* Footer */
+footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	padding: 2em;
+	text-align: center;
+	font-size: 0.8em;
+	color: #cccccc;
+	background-color: #666666;
+	border-top: 7px solid #4aaaa5;
+}
