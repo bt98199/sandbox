@@ -1,0 +1,62 @@
+section {
+	border: 1px solid blue;
+  }
+  
+  div {
+	margin: 5px;
+
+    border: 1px solid black;
+  }
+
+.wrapper {
+ background:grey; 
+ grid-template-columns 65% 35%;
+}
+
+.b {
+    width: 150px;
+    height: 150px;
+}
+
+.left {
+	float: left;
+	background: pink;
+  }
+
+.none {
+    float: left;
+    background: yellowgreen;
+    width: 150px;
+    height: 150px;
+    }
+  .right {
+	float: right;
+	background: cyan;
+  }
+  body {
+    background-color: rgb(222, 202, 177);
+    color: black;
+  }
+  
+  /* On screens that are 992px wide or less, the background color is blue */
+  @media screen and (max-width: 992px) {
+    body {
+      background-color: blue;
+      color: white;
+    }
+  }
+  
+  /* On screens that are 600px wide or less, the background color is olive */
+  @media screen and (max-width: 600px) {
+    body {
+      background-color: olive;
+      color: white;
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    .left {
+      background-color: rgb(0, 5, 6);
+      color: white;
+    }
+  }
