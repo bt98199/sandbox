@@ -1,0 +1,467 @@
+<!-- Boilerplate Flex-->
+<!--Create Date: 03/07/2019 Swiss Army Site -->
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello World</title>
+  <!-- CSS Links -->
+  <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/reset.css">
+  <link rel="stylesheet" ype="text/css" media="screen"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css">
+</head>
+<body> 
+ <!---------------------------------> 
+<div class="card">
+<div class="card-header">Psychic Game</div>
+<div class="card-body">
+  <p id="directions-text">Guess what letter I'm thinking of (choose from a-z)</p>
+  <p id="userchoice-text">You Chose:</p>      
+  <p id="wins-text">Wins: </p>
+  <p id="losses-text">Losses:</p>
+  <p id="guesses-left">Guesses Left</p>
+  <p id="guess-history">Your Guesses so far:</p>
+  <p id="computerchoice-text"><!--The Computer Chose-->
+</div>
+</div>
+</div>
+ <!---------------------------------> 
+ <div class="row">
+    <div class="col-sm-3">
+        <div class="card-header">TARGET</div>
+        <div class="card-body">
+            <h5 class="card-title">Don't go over!</h5> <br><span id="target-num"></span>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card-header">Record</div>
+        <div class="card-body">
+            <h5 class="card-title"></h5> 
+            <br>
+            <h5>Wins: <span id="wins"></span></h5>
+            <h5>Losses: <span id="losses"></span></h5>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card-header">Your Number</div>
+        <div class="card-body">
+            <h5 class="card-title">Match the target.</h5> 
+            <br>
+            <span id="total-num"></span>
+        </div>
+    </div>
+</div>          
+        <div class="card">
+                <div class="card-header">
+                    THE TALENT
+                    <span><button type="button" class="btn btn-dark" id="reset-button">Play Again!</button></span>
+                </div>
+        <div class="card-body">
+                <div class="row">
+                     <div class="col-lg-3 col-md-6 col-sm-12">
+                         <div class="thumbnail">
+                            <img id="hema" src="./assets/images/hema.jpg" alt="hema" title="Hematite">
+                        </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-12">
+                            <div class="thumbnail">
+                                <img id="red" src="./assets/images/red.jpg" alt="red" title="Some kind of red thing">
+                          </div>
+                    </div>  
+                     <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="thumbnail">
+                             <img id="topaz" src="./assets/images/topaz.jpg" alt="topaz" title="Topaz">
+                         </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="thumbnail">
+                               <img id="turq" src="./assets/images/turq.jpg" alt="turq" title="Costume Jewelry">
+                         </div>
+                     </div>
+            </div>
+        </div>
+
+</div>
+<!---------------------------------> Drum key mapping
+
+<div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
+
+
+
+<!-------------cool card layout--------------------> 
+  <!-- Start Nav -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <span class="navbar-brand mb-1 h1">Navbar</span>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Portfolio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- End Nav -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="page-header">
+            <h1>About Me</h1>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <img src="http://placehold.it/150x150" alt="Placeholder" class="img-thumbnail">
+            </div>
+            <div class="col-md-9">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dignissim, felis ut dictum tristique,
+                nibh erat feugiat libero, sit amet fringilla mauris velit in mi. Duis tempus felis vitae
+                felis vulputate pretium. Nullam commodo, est ac auctor ornare, eros nisi fringilla sem,
+                non pulvinar tortor lorem sit amet sem. Aenean quis erat facilisis, porttitor ex cursus,
+                luctus enim. Curabitur et metus in lacus tristique sagittis et in lorem. Nunc id nisi et
+                neque fringilla ultricies. Aenean at feugiat elit, a posuere justo. Pellentesque egestas
+                dolor et nisi venenatis, nec fermentum urna fringilla. Etiam efficitur porta purus, id
+                posuere sem congue a.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!--Create Card taking up 4 Columns-->
+        <div class="col-md-4">
+          <div class="card mt-2">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-----------Hangman Game----------------------> 
+<body>
+    <header>
+        <h1>HANGMAN</h1>
+            <h2>Guess That Movie!</h2>
+    </header>
+    <div id="mainDiv">
+        <div id="leftDiv">
+            <p>ROLE THAT MOVIE TRAILER!</p>
+            <p id="smallfont">(If you guessed the one-word movie title correctly)</p>
+            <div id="filmDiv">
+                <img id="img" src="http://fanboygaming.com/wp-content/uploads/2012/10/movie2.jpg" alt="Movie Film">
+            </div>
+        </div>
+        <div id="rightDiv">
+            <p>PRESS ANY KEY TO GET STARTED!</p>
+            <br>
+            <div id="wins">WINS
+            <br><br>
+                <span id="winCounter">0</span>
+            </div>
+            <div id="loss">LOSSES
+            <br><br>
+                <span id="lossCounter">0</span>
+            </div>
+        <br><br>    
+            <div id="currentWord">CURRENT WORD
+            <br><br>
+                <span id="titleToGuess">_ _ _ _ _ _ _ _ _ _</span>
+            </div>
+            <div id="guessesRemaining">NUMBER OF GUESSES REMAINING
+                <span id="numGuessesLeft"></span>
+            </div>
+            <div id="ltrGuessed">LETTERS ALREADY GUESSED
+            <br><br>
+                <span id="wrongGuesses"></span>
+            </div>
+        </div>
+    </div>
+
+<!------------Slideshow---------------------> 
+
+<title>Slideshow</title>
+
+    <style>
+
+      body { /* Visual */ background: lightgrey;}
+
+      #image-holder {
+
+        /* Positioning */
+         margin: 0 auto;
+
+        /* Box-model */
+        width: 400px;
+
+        /* Typography */
+        text-align: center;
+
+      }
+
+      #buttons {
+
+        /* Positioning */
+        margin: 50px 0;
+
+        /* Typography */
+        text-align: center;
+
+      }
+
+      button {
+
+        /* Box-model */
+        width: 200px;
+        height: 100px;
+
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <div id="buttons">
+      <button id="start"><h2>Start</h2></button>
+      <button id="stop"><h2>Stop</h2></button>
+    </div>
+
+    <div id="image-holder"></div>
+<!-----------------Stop Watch----------------> 
+<body>
+
+    <div id="wrapper">
+
+      <div id="display">00:00</div>
+
+      <!-- Div containing our stopwatch controls -->
+      <div id="buttons">
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="reset">Reset</button>
+        <button id="lap">Lap</button>
+      </div>
+
+      <div id="laps"></div>
+
+    </div>
+
+<!----------Captain Planet Game-----------------------> 
+<body>
+
+    <!-- Overall Bootstrap Grid -->
+    <div class="container">
+  
+      <!-- Jumbotron with Title -->
+      <div class="jumbotron">
+        <h1 class="text-center">
+          <strong>Captain Planet: The Game!</strong>
+        </h1>
+        <h4 class="text-center">Rated M for Mature</h4>
+        <hr>
+        <div class="text-center">
+          <button class="btn btn-warning btn-xs theme-button">
+            <span class="fa fa-music"></span> Play Theme!</button>
+          <button class="btn btn-default btn-xs pause-button">
+            <span class="fa fa-pause"></span> Pause Song</button>
+        </div>
+      </div>
+  
+      <div class="row">
+  
+        <!-- Left card -->
+        <div class="col-lg-6">
+  
+          <!-- Controls (Superpower Grow/Shrink)-->
+          <div class="card card-default">
+            <div class="card-header">
+              Superpowers - Change Sizes
+            </div>
+            <div class="card-body">
+              <div class="text-center">
+                <button class="btn btn-default btn-lg normal-button">
+                  <span class="fa fa-okay"></span> Normal</button>
+                <button class="btn btn-primary btn-lg grow-button">
+                  <span class="fa fa-plus"></span> Grow</button>
+                <button class="btn btn-danger btn-lg shrink-button">
+                  <span class="fa fa-minus"></span> Shrink</button>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Controls (Superpower Visibility) -->
+          <div class="card card-default">
+            <div class="card-header">
+              Superpowers - Invisibility!
+            </div>
+            <div class="card-body">
+              <div class="text-center">
+                <button class="btn btn-default btn-lg vis-button">
+                  <span class="fa fa-eye"></span> Visible</button>
+                <button class="btn btn-info btn-lg invis-button">
+                  <span class="fa fa-eye-slash"></span> Invisible</button>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Controls (Superpower Move Controls) -->
+          <div class="card card-default">
+            <div class="card-header">
+              Move Controls
+            </div>
+            <div class="card-body">
+              <div class="text-center mb-1">
+                <button class="btn btn-default btn-lg up-button">
+                  <span class="fa fa-arrow-up"></span>
+                </button>
+              </div>
+              <div class="text-center">
+                <button class="btn btn-default btn-lg left-button">
+                  <span class="fa fa-arrow-left"></span>
+                </button>
+                <button class="btn btn-default btn-lg down-button">
+                  <span class="fa fa-arrow-down"></span>
+                </button>
+                <button class="btn btn-default btn-lg right-button">
+                  <span class="fa fa-arrow-right"></span>
+                </button>
+              </div>
+              <br>
+              <div class="text-center">
+                <button class="btn btn-default btn-lg back-button">
+                  <span class="fa fa-comment"></span> Go Planet!</button>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+  
+        <!-- Right card (Captain Planet Hero)-->
+        <div class="col-lg-6">
+  
+          <!-- Captain Planet Image -->
+          <img class="img captain-planet" src="http://screencrush.com/442/files/2013/06/captain-planet-01.jpg"
+            style="position:absolute; top:50px; left: 80px; z-index: -20; height: 300px">
+  
+        </div>
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+
+<!---------------------------------> 
+
+<!--<div id="fibo-display"></div> -->
+
+  <!-- JS Links -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="./assets/javascript/script.js"></script>
+</body>
+
+</html>
