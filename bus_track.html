@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<head>
+<title>Puget Sound Transit Ops</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="apple-touch-icon" href="appleicon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<link rel="stylesheet" href="leaflet/leaflet.css" />
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<script src="leaflet/leaflet.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="Polyline.encoded.js"></script>
+<script src="actions.js"></script>
+<script src="reference.js"></script>
+<script src="filtering.js"></script>
+<script src="images/icons.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.66.1/dist/L.Control.Locate.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.66.1/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+</head>
+<body>
+<!--
+If you're here, it might be good for you to know that I'm not particularly experienced in this area.
+The code is not pretty. I know this. And I know there are certainly optimizations to be made.
+If you feel so compelled and can do it kindly, I'd love to hear feedback and suggestions on Twitter: @kona404
+
+_____________
+|512 SEATTLE|
+|‾‾‾‾‾|‾‾‾‾‾|
+|     |     |
+|_____|_____|
+|[  ] | [  ]|
+‾‾‾‾‾‾‾‾‾‾‾‾‾
+-->
+<div class="container-fluid">
+    <div class="row d-md-hidden" id="nav">
+        <div class="col-12">
+            <ul class="nav nav-tabs nav-justified">
+              <li class="nav-item"><a id="navMap" class="nav-link active" href="#map" onclick="hideMap(1)">Map</a></li>
+              <li class="nav-item"><a id="navAct" class="nav-link" href="#actions" onclick="hideMap(0)">Actions</a></li>
+              <li class="nav-item"><a id="navStat" class="nav-link" href="#stats" onclick="hideMap(2)">Statistics</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-9" id="mapid"></div>
+        <!-- <div class="spinner-grow" role="status" id="loading-onmap"><span class="sr-only">Loading...</span></div> -->
+        <div class="col-md-3 d-none d-md-block mobileTab" id="actions">
+            <br>
+                        <!-- <div class="alert alert-danger" role="alert">
+            AGENCY is currently experiencing data errors.<br>All other agencies are reporting as normal.<br><small>Updated 1104a, 2/27</small>
+            </div> -->
+            <h3 align="center">Puget Sound Transit Operations Tracker</h3>
+            <p align="center"><a class="small" href="about.html">About</a>
+                        <div id="filtering">
+                <form name="filterForm" action="" onsubmit="return false">
+                <select id="filterBy" class="form-control" onchange="changeFilter(this.value)">
+                    <option value="" disabled selected>Filter by...</option>
+                    <option value="route">Route</option>
+                    <option value="vehicleID">Vehicle ID</option>
+                    <option value="vehicleMake">Vehicle make</option>
+                    <option value="vehicleModel">Vehicle model</option>
+                    <option value="vehicleLength">Vehicle length</option>
+                    <option value="timeliness">Timeliness</option>
+                    <option value="misc">Other</option>
+                    <option value="isAnomaly">Coach anomalies</option>
+                </select>
+                <div id="pickFilter"></div>
+                <div class="btn-group" role="group" style="width:100%">
+                    <button type="button" class="btn btn-secondary map-button disabled" id="clearFilter" onclick="clearFilters()" disabled>Clear filter</button>
+                </div>
+                </form>
+            </div>
+            <p class="small"><i>Some browsers struggle to show large numbers of vehicles. <span id="currShow"></span></i></p>
+            <div class="spinner-border d-md-none spin" role="status" id="loading"><span class="sr-only">Loading...</span></div>
+            <!-- <div class="btn-group-vertical btn-block">
+                <button class="btn btn-secondary map-button" id="center" onclick="goTo([47.620397, -122.255859],12)">Go to greater Seattle</button>
+                <button class="btn btn-secondary map-button" id="goToUW" onclick="goTo([47.654852, -122.305684],15)">Go to UW</button>
+                <button class="btn btn-secondary map-button" id="goToDowntownSEA" onclick="goTo([47.604847, -122.32667],15)">Go to downtown Seattle</button>
+                <button class="btn btn-secondary map-button" id="goToTac" onclick="goTo([47.242065, -122.450867],12)">Go to Tacoma</button>
+                <button class="btn btn-secondary map-button" id="goToOly" onclick="goTo([47.041527, -122.897358],13)">Go to Olympia</button>
+                <button class="btn btn-secondary map-button" id="goToSeaTac" onclick="goTo([47.545945, -122.297058],9)">Go to Puget Sound wide</button>
+            </div>
+            <br>
+            <br> -->
+            <div id="getLink">
+                    <input class="form-control form-control-sm" id="cViewURL" type="text" readonly>
+                    <button class="btn btn-info btn-sm btn-block" onclick="getStateURL(true)"><span id="getLinkT">Copy link to current view</span></button>
+                    <br>
+            </div>
+            <div id="iconThemeSelect">
+                <h4>Icon Appearance</h4>
+                <form name="iconThemeSelect" onchange="changeIconTheme(); getStateURL(false);">
+                <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" name="iconTheme" value="def" id="defTheme" checked>
+                    <label class="custom-control-label" for="defTheme">Default</label><br>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" name="iconTheme" value="timeliness" id="timTheme">
+                    <label class="custom-control-label" for="timTheme">Schedule adherence</label>
+                </div>
+                <span id="themeEx"><p class="small"><i>Color coding by agency, except KCM, which is coded by length and brand</i></p></span>
+                </form>
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" name="showData" id="showData" onchange="showData(this.checked)">
+                    <label class="custom-control-label" for="showData">Show route and vehicle ID on icon</label>
+                </div>
+                <span id="dataWarning" hidden><div class="alert alert-warning small" role="alert">Caution: This may slow down your browser signficantly.</div></span>
+            </div>
+            <div class="custom-control custom-checkbox d-none">
+                <input type="checkbox" id="trainBypass" class="custom-control-input">
+                <label class="custom-control-label" for="trainBypass">Show Link light rail</label><br>
+            </div>
+            <div class="d-none d-md-block">
+                <hr>
+                <h4>Statistics</h4>
+                <p id="statsEx"><small><i>For vehicles currently showing</i></p></small>
+            </div>
+            <div id="stats" class="stats d-none d-md-block collapse hide"></div>
+        </div>
+        <div class="col d-none mobileTab scrollable" id="statsTab"><div class="stats"></div></div>
+    </div>
+</div>
+<div id="modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="margin:0px">Today's trips for this vehicle</h4>
+            </div> 
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="margin:0px">Trip schedule</h4>
+            </div> 
+            <div class="modal-body modal-body-2">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+//initialize the map
+var firstLoc;
+var firstZoom;
+if (readCookie("loc") != "" && readCookie("zoom") != "") {
+    firstLoc = L.latLng(readCookie("loc").split(","));
+    firstZoom = readCookie("zoom");
+} else {
+    firstLoc = L.latLng([47.620397, -122.255859]);
+    firstZoom = 12;
+}
+;
+var mymap = L.map('mapid').setView(firstLoc, firstZoom);
+// L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}', {
+//     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>. Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>. <a href="/about.html">Transit data attribution</a>.',
+//     maxZoom: 18,
+//     id: 'mapbox.streets',
+//     accessToken: 'pk.eyJ1Ijoia29uYTMxNCIsImEiOiJjanIxMjcyNmowaGFkNDNud3dmcXE0YXNqIn0.-1Icvfh04HycYwJczACUaA'
+// }).addTo(mymap);
+L.tileLayer('https://tile.thunderforest.com/transport/{z}/{x}/{y}@2x.png?apikey={apiKey}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>. Imagery &copy; <a href="https://www.thunderforest.com/">Thunderforest</a>. <a href="/about.html">Transit data attribution</a>.',
+    maxZoom: 18,
+    id: "thunderforest.transport",
+    apiKey: "3219740f8769478ba2bf7d36aa84e46d",
+    opacity: 0.6
+}).addTo(mymap);
+L.Layer.include({
+    isActive: function() {
+        return (mymap.hasLayer(this));
+    },
+    size: function() {
+        return (Object.keys(this._layers).length);
+    }
+});
+var layers = {
+    "King County Metro": lastLayer[1],
+    "Sound Transit": lastLayer[40],
+    "Community Transit": lastLayer[29],
+    "Pierce Transit": lastLayer[3],
+    "Intercity Transit": lastLayer[19],
+    "Seattle Streetcar": lastLayer[23],
+    "Everett Transit": lastLayer[97],
+    "WA State Ferries": lastLayer[95],
+    "Waterfront Shuttle": lastLayer[99],
+};
+var loading = L.control.loading({position: "topleft"});
+var error = L.control.error({position: "topleft"});
+var layerControl = L.control.layers(null, layers);
+layerControl.addTo(mymap).expand();
+L.control.locate({position: "topleft", locateOptions: {maxZoom:16}, icon: "fa fa-location-arrow"}).addTo(mymap);
+mymap.on('move', function() { layerControl.collapse(); setCookie("loc", mymap.getCenter()); setCookie("zoom", mymap.getZoom()); getStateURL(false); });
+mymap.on('overlayadd', function(e) { updateTally(null); updateStats(); if (!filteringActive()) recordLayerState(); getStateURL(false); });
+mymap.on('overlayremove', function(e) { updateTally(null, e.layer); updateStats(); if (!filteringActive()) recordLayerState(); getStateURL(false); });
+
+
+//make request to get data
+function getData() {
+    showSpinners(true);
+    if (error._map != null) error.remove();
+    loading.addTo(mymap);
+    var xmlhttp = new XMLHttpRequest();
+    var rx;
+    xmlhttp.open("GET", "getdata.php?id=all"  , true);
+    xmlhttp.onload = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            rx = this.responseText;
+            pos = JSON.parse(rx);           //parse received data to be readable
+            for (i in allAgencies) {
+                var currentAgency = allAgencies[i];
+                if (pos.agencies[currentAgency] == null || pos.agencies[currentAgency].failed != null) {
+                    console.log(rx);
+                    alert("Failed to get data for agency " + currentAgency + ", will try again on next load in 60 seconds...");
+                } else if (pos.agencies[currentAgency].failed == null && !pos.agencies[currentAgency].new) {
+                    rxTime = pos.agencies[currentAgency].currentTime;       
+                    trips = pos.agencies[currentAgency].data.references.trips;
+                    routes = pos.agencies[currentAgency].data.references.routes;
+                    if (pos.agencies[currentAgency].data.list.length > 0) { 
+                        placeMarkers(pos.agencies[currentAgency].data); 
+                    }
+                    updateStats();
+                } else if (pos.agencies[currentAgency].new) {
+                    placeMarkers2(currentAgency, pos.agencies[currentAgency].data);
+                    updateStats();
+                } else {
+                    console.log(pos.agencies[currentAgency].reason);
+                    // alert(pos.agencies[currentAgency].reason + ", please try again.");
+                }
+            }
+            // if cookies for filtering are present, set up the filter
+            if (readCookie("f") != "" && readCookie("fby") != "") {
+                document.getElementById("filterBy").selectedIndex = readCookie("fby");
+                changeFilter(document.getElementById("filterBy").value);
+                document.getElementById("filter").value = readCookie("f");
+            }
+            // if any filter is set, activate it
+            if (document.getElementById("filter") != null) {
+                filterMarkers();
+            }
+            if (document.getElementById("filterBy").selectedIndex != 0 && (document.getElementById("filter") == null || document.getElementById("filter").value == "")) {
+                changeFilter(document.getElementById("filterBy").value);
+            }
+            if (!document.getElementById("defTheme").checked) {
+                changeIconTheme();
+            }
+            if (document.getElementById("showData").checked) {
+                showData(true);
+            }
+            loading.remove();
+            showSpinners(false);
+        } else {
+            loading.remove();
+            error.addTo(mymap);
+            console.log(this);
+        }
+    };
+    xmlhttp.send();
+}
+
+var initialIDs = [];
+for (i in allAgencies) {
+    var thisAgency = allAgencies[i];
+    if (readCookie(thisAgency) == "1") {
+        initialIDs.push(thisAgency);
+    }
+}
+if (initialIDs.length == 0) initialIDs.push(1);
+load();
+for (i in initialIDs) {
+    lastLayer[initialIDs[i]].addTo(mymap);
+}
+var firstTheme = "def";
+if (readCookie("th")) {
+    firstTheme = readCookie("th");
+}
+if (firstTheme != "def") {
+    var allThemeElements = document.getElementsByName("iconTheme");
+    for (i in allThemeElements) {
+        if (allThemeElements[i].value == firstTheme) allThemeElements[i].checked = true;
+    }
+    changeIconTheme();
+}
+if (readCookie("showData") != "") {
+    document.getElementById("showData").checked = true;
+}
+
+function load() {
+    allVData = [];
+	getData();
+	setTimeout(load, 60000);
+};
+
+function showSpinners(yes) {
+    if (yes) {
+        if (!document.getElementById("mapid").classList.contains("d-none")) {
+            // document.getElementById("loading-onmap").classList.remove("d-none");
+            // document.getElementById("loading-onmap").classList.add("d-block");
+        }
+        document.getElementById("loading").classList.add("d-block");
+        document.getElementById("loading").classList.remove("d-none");
+    } else {
+        // document.getElementById("loading-onmap").classList.remove("d-block");
+        // document.getElementById("loading-onmap").classList.add("d-none");
+        document.getElementById("loading").classList.remove("d-block");
+        document.getElementById("loading").classList.add("d-none");
+    }
+}
+
+function hideMap(show) {
+    if (show==0) {
+        document.getElementById("actions").classList.remove("d-none");
+        document.getElementById("actions").classList.remove("d-md-block");
+        document.getElementById("actions").classList.add("d-block");
+        document.getElementById("mapid").classList.remove("d-block");
+        document.getElementById("mapid").classList.add("d-none");
+        // document.getElementById("loading-onmap").classList.remove("d-block");
+        // document.getElementById("loading-onmap").classList.add("d-none");
+        document.getElementById("statsTab").classList.remove("d-block");
+        document.getElementById("statsTab").classList.add("d-none");
+        document.getElementById("navMap").classList.remove("active");
+        document.getElementById("navStat").classList.remove("active");
+        document.getElementById("navAct").classList.add("active");
+    } else if (show==1) {
+        document.getElementById("actions").classList.remove("d-block");
+        document.getElementById("actions").classList.add("d-none");
+        document.getElementById("actions").classList.add("d-md-block");
+        document.getElementById("mapid").classList.remove("d-none");
+        document.getElementById("mapid").classList.add("d-block");
+        document.getElementById("statsTab").classList.remove("d-block");
+        document.getElementById("statsTab").classList.add("d-none");
+        document.getElementById("navMap").classList.add("active");
+        document.getElementById("navStat").classList.remove("active");
+        document.getElementById("navAct").classList.remove("active");
+        mymap.invalidateSize();
+    } else if (show==2) {
+        document.getElementById("actions").classList.remove("d-block");
+        document.getElementById("actions").classList.add("d-none");
+        document.getElementById("actions").classList.add("d-md-block");
+        document.getElementById("mapid").classList.remove("d-block");
+        document.getElementById("mapid").classList.add("d-none");
+        // document.getElementById("loading-onmap").classList.remove("d-block");
+        // document.getElementById("loading-onmap").classList.add("d-none");
+        document.getElementById("statsTab").classList.remove("d-none");
+        document.getElementById("statsTab").classList.add("d-block");
+        document.getElementById("navMap").classList.remove("active");
+        document.getElementById("navStat").classList.add("active");
+        document.getElementById("navAct").classList.remove("active");
+    }
+}
+</script>
+</html>
