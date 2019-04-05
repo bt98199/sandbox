@@ -1,16 +1,48 @@
+var x = 25;
+var input = [];
+var output = [];
 
-const str = "I am the alpha";
+function show() {
+for (let y = 0; y < x; y++) {
+  input.push(y);
+};
 
-function run(){
-for (var i = 0; i < str.length; i++) {
-    console.log(str.charAt(i));
+for (let i = 0; i < input.length; i++) {
+  var selfDiv = true;
+  let currentStr = i.toString();
+  for (let j = 0; j < currentStr.length; j++) {
+    if (i % i[j] !== 0){
+    selfDiv = false;
+    }
+  };
+  if (selfDiv) => {else output.push[i]};
+  
+  console.log(input);
+  console.log("The self dividers are: " + output);
+ }
 };
-var j = str.length;
-while (j--) {
-  console.log(str.charAt(i));
- };
-};
-run();
+
+show();
+
+
+
+
+
+
+
+
+// const str = "I am the alpha";
+
+// function run(){
+// for (var i = 0; i < str.length; i++) {
+//     console.log(str.charAt(i));
+// };
+// var j = str.length;
+// while (j--) {
+//   console.log(str.charAt(i));
+//  };
+// };
+// run();
 
 // const numbers = [1,2,3,4,5,6,7,8,9,0];
 // const qwerty = ['q','w','e','r','t','y','u','i','p'];
