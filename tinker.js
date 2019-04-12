@@ -1,28 +1,44 @@
-var x = 25;
-var input = [];
-var output = [];
 
-function show() {
-for (let y = 0; y < x; y++) {
-  input.push(y);
-};
+input [1,2,3], function(num) { return num === 2}
 
-for (let i = 0; i < input.length; i++) {
-  var selfDiv = true;
-  let currentStr = i.toString();
-  for (let j = 0; j < currentStr.length; j++) {
-    if (i % i[j] !== 0){
-    selfDiv = false;
-    }
-  };
-  if (selfDiv) => {else output.push[i]};
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var x = 25;
+// var input = [];
+// var output = [];
+
+// function show() {
+// for (let y = 0; y < x; y++) {
+//   input.push(y);
+// };
+
+// for (let i = 0; i < input.length; i++) {
+//   var selfDiv = true;
+//   let currentStr = i.toString();
+//   for (let j = 0; j < currentStr.length; j++) {
+//     if (i % i[j] !== 0){
+//     selfDiv = false;
+//     }
+//   };
+//   if (selfDiv) => {else output.push[i]};
   
-  console.log(input);
-  console.log("The self dividers are: " + output);
- }
-};
+//   console.log(input);
+//   console.log("The self dividers are: " + output);
+//  }
+// };
 
-show();
+// show();
 
 
 
