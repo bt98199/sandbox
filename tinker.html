@@ -1,0 +1,147 @@
+<!-- Boilerplate Flex-->
+<!--Create Date: 03/08/2019 [insert notes] -->
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello World</title>
+  <!-- CSS Links -->
+
+  <link rel="stylesheet" ype="text/css" media="screen"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body> <!-- $(document).ready(function() {}); -->
+
+
+<!-- <p>return indices of 2 numbers such that they add up to the target</p>
+<p>nums = [2,7,11,15], target = 9 
+  return nums[0] + nums[1] : 2+7=9
+</p> -->
+
+<div id="results"></div>
+
+
+1. check if str.length >= 26 if no then false
+2. Convert var into array of lower case single string chars
+1. build array alphaArr of a to z using fromCharCode
+ 
+3. splice var array through a to z string
+4.  If remaining alphaArr is null then true o/w false
+
+
+
+
+
+
+ <script type= "text/javascript">
+
+var str = 'the quick brown fox jumps over the lazy dog';
+var alpha = [];
+var strArr = [];
+
+var pangramCheck=function(str) {
+  strArr = str.split('').toLowerCase;
+for (let i = 65; i < 91; i++) {
+  alpha = push.(string.fromCharCode[i]);
+  
+}
+
+
+}
+
+
+
+pangramCheck('the quick brown fox jumps over the lazy dog')
+
+
+// var array = [1,2,2,3];
+// var newArray =[];
+
+// for (let i = 0; i < array.length; i++) {
+//   if (array[i].includes(newArray[i])) {
+//     return
+//   } else {
+//     array.push[newArray[i]];
+//   }
+// }
+// console.log(newArray);
+
+
+
+
+
+
+// function oneNonRepeat(arr) {
+//     let obj = {};
+//     for(let i = 0; i<arr.length;i++) {
+//         if(obj.hasOwnProperty(arr[i])) {
+//             obj[arr[i]]++;
+//         }
+//         else {
+//             obj[arr[i]] = 1;
+//         }
+//     }
+//     for(key in obj) {
+//         if(obj[key]===1) return key;
+//     }
+// }
+
+// console.log(oneNonRepeat([2,1,2])) //should be 1
+// console.log(oneNonRepeat([1,1,1,1,5,1,1,1,1,8,8,5,1,11]))//should be 11
+//  console.log(obj{key});
+
+// var nums = [2,7,11,15];
+// var target = 22;
+// var first = 0;
+// var second = 0;
+
+// function twoNums() {
+//   for (let i = 0; i < nums.length; i++) {
+//   for (let j = i + 1; j < nums.length; j++) {
+//   if (nums[i] + nums[j] === target) {
+//     return [i,j];
+//     console.log ("["+ i + "," + j +"]");
+//     }
+    // (Something needs to stop the loop here);
+// else {
+//     console.log("Solution not in array");
+// //     }
+//     }
+//   } 
+// };
+
+// twoNums()
+
+
+//   var tracker = [];
+//   var input = [2,5,6,3,5,6,3,4,6,7,3];
+
+// for (let i = 0; i < input.length; i++) {
+//   tracker.push[input[i]];
+//   if ((input[i] in tracker)) {
+//     console.log(input[i])
+//   }
+//   else {
+//     console.log("undefined")
+//   }
+  
+// };
+
+
+
+
+
+
+</script>
+
+
+  <!-- JS Links -->
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+
+</body>
+
+</html>
